@@ -1036,10 +1036,13 @@ function updateName(oldNick, newNick)
 	if (not g_PlayerData) then return end
 	local source = getElementType(source) == "player" and source or oldNick
 	local player = g_PlayerData[source]
-	player.name = newNick
+	local newPlayerName = newNick
+	if g_settings["hidecolortext"] then
+		newPlayerName = newPlayerName:gsub("#%x%x%x%x%x%x", "")
+	end
 	if player.gui.mapLabel then
-		guiSetText(player.gui.mapLabelShadow, newNick)
-		guiSetText(player.gui.mapLabel, newNick)
+		guiSetText(player.gui.mapLabelShadow, newPlayerName)
+		guiSetText(player.gui.mapLabel, newPlayerName)
 		local labelWidth = guiLabelGetTextExtent(player.gui.mapLabelShadow)
 		guiSetSize(player.gui.mapLabelShadow, labelWidth, 14, false)
 		guiSetSize(player.gui.mapLabel, labelWidth, 14, false)
